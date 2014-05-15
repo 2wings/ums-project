@@ -24,8 +24,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import samples.ums.ejb.domain.Role;
-import samples.ums.ejb.domain.User;
+import ums.ejb.domain.Role;
+import ums.ejb.domain.User;
 
 public class PersistenceUnitTest {
 

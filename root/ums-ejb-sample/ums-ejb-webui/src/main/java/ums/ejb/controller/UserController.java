@@ -1,4 +1,4 @@
-package samples.ums.ejb.controller;
+package ums.ejb.controller;
 
 import javax.ejb.EJB;
 
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import samples.ums.ejb.dao.UserDaoBean;
-import samples.ums.ejb.domain.Role;
-import samples.ums.ejb.domain.User;
-import samples.ums.ejb.dto.UserListDto;
+import ums.ejb.dao.UserDaoBean;
+import ums.ejb.domain.Role;
+import ums.ejb.domain.User;
+import ums.ejb.dto.UserListDto;
 
 @Controller
 @RequestMapping("/users")
