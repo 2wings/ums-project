@@ -1,4 +1,4 @@
-package samples.ums.ejb.dao;
+package ums.ejb.dao;
 
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
@@ -8,8 +8,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.criteria.CriteriaQuery;
 
-import samples.ums.ejb.domain.Role;
-import samples.ums.ejb.domain.User;
+import ums.ejb.domain.Role;
+import ums.ejb.domain.User;
 
 import java.util.List;
 

@@ -3,21 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>ums-project</groupId>
-		<artifactId>root</artifactId>
+		<artifactId>ums-ejb-sample</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>ums-ejb-sample</artifactId>
-	<packaging>pom</packaging>
-	<modules>
-		<module>ums-ejb-webui</module>
-		<module>ums-ejb-app</module>
-	</modules>
+	<artifactId>ums-ejb-app</artifactId>
 
 	<dependencies>
 		<!-- Java EE -->
 		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
 		</dependency>
 	</dependencies>
 </project>

@@ -12,7 +12,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package samples.ums.ejb.domain;
+package ums.ejb.domain;
 
 /**
  *

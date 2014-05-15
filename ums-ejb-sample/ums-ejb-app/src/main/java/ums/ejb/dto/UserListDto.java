@@ -1,8 +1,8 @@
-package samples.ums.ejb.dto;
+package ums.ejb.dto;
 
 import java.util.List;
 
-import samples.ums.ejb.domain.User;
+import ums.ejb.domain.User;
 
 public class UserListDto {
 

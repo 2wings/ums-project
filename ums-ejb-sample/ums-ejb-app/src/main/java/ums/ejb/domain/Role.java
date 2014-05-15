@@ -1,4 +1,4 @@
-package samples.ums.ejb.domain;
+package ums.ejb.domain;
 
 import java.io.Serializable;
 import java.util.UUID;
