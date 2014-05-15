@@ -8,12 +8,10 @@ import org.springframework.stereotype.Component;
 
 import reactor.core.Reactor;
 import reactor.event.Event;
-import reactor.spring.annotation.ReplyTo;
 import reactor.spring.annotation.Selector;
 import ums.reactor.domain.User;
-import ums.reactor.dto.UserListDto;
 import ums.reactor.ejb.UserDaoBean;
-import ums.reactor.internal.UserEvent;
+import ums.reactor.event.UserEvent;
 
 @Component
 public class UserHandler {
