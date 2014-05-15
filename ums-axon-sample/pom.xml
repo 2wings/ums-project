@@ -7,4 +7,8 @@
   </parent>
   <artifactId>ums-axon-sample</artifactId>
   <packaging>pom</packaging>
+  <modules>
+  	<module>ums-axon-webui</module>
+  	<module>ums-axon-app</module>
+  </modules>
 </project>
