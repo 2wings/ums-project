@@ -7,4 +7,7 @@
   </parent>
   <artifactId>ums-reactor-sample</artifactId>
   <packaging>pom</packaging>
+  <modules>
+  	<module>ums-reactor-webui</module>
+  </modules>
 </project>
