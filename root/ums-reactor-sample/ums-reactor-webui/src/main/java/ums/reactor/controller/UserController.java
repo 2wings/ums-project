@@ -21,7 +21,7 @@ import ums.reactor.domain.Role;
 import ums.reactor.domain.User;
 import ums.reactor.dto.UserListDto;
 import ums.reactor.ejb.UserDaoBean;
-import ums.reactor.internal.UserEvent;
+import ums.reactor.event.UserEvent;
 import ums.reactor.service.UserService;
 
 @Controller
@@ -31,12 +31,18 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @EJB(mappedName = "java:app/reactor-ums-webui/UserDaoBean")
+    @EJB(mappedName = "java:app/reactor-ums/UserDaoBean")
     private UserDaoBean userDaoBean;
 
     @RequestMapping
     public String getUsersPage() {
         return "users";
+    }
+
+    @RequestMapping(value = "/login")
+    public @ResponseBody
+    UserEntry login() {
+        return null;
     }
 
     @RequestMapping(value = "/records")
@@ -66,7 +72,7 @@ public class UserController {
         userService.fireEvent(UserEvent.USER_CREATE, newUser);
         return newUser;
     }
-    
+
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public @ResponseBody
     User update(@RequestParam

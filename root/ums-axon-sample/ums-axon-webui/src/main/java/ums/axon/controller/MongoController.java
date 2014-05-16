@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import samples.ums.axon.init.InitMongoService;
+import ums.axon.init.InitMongoService;
 
 /**
  * invoke mongo db init service from controller

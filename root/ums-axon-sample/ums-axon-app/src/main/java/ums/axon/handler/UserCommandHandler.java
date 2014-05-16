@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import ums.axon.command.AuthenticateUserCommand;
 import ums.axon.command.CreateUserCommand;
 import ums.axon.command.DeleteUserCommand;
 import ums.axon.command.UpdateUserCommand;
@@ -53,6 +54,16 @@ public class UserCommandHandler {
         }
         boolean success = onUser(account.getId()).update(command.getUserEntry());
         return success;
+    }
+
+    @CommandHandler
+    public UserEntry handleAuthenticateUser(AuthenticateUserCommand command) {
+        UserEntry account = userQueryRepository.findById(command.getUserName());
+        if (account == null) {
+            return null;
+        }
+        boolean success = onUser(account.getId()).authenticate(command.getPassword());
+        return success ? account : null;
     }
 
     private UserAR onUser(String userId) {

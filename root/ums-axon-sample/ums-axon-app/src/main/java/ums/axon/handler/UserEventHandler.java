@@ -65,9 +65,6 @@ public class UserEventHandler {
         if (existingUser == null) {
             return false;
         }
-        
-        
-
         roleRepository.delete(existingUser.getRole());
         userRepository.delete(existingUser);
         return true;
