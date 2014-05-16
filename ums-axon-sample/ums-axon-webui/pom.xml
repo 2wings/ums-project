@@ -34,6 +34,24 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
 		</dependency>
+		
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+		
+		
 		<!-- ehcache lib and cache provider -->
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
@@ -63,11 +81,11 @@
 			<artifactId>jta</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>samples</groupId>
-			<artifactId>axon-ums-app</artifactId>
+			<groupId>ums-project</groupId>
+			<artifactId>ums-axon-app</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-	</dependencies>
+  </dependencies>
 
 	<build>
 		<plugins>

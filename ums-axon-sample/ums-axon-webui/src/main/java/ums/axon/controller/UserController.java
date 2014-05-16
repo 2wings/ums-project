@@ -1,10 +1,10 @@
 package ums.axon.controller;
 
-import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 import org.axonframework.commandhandling.CommandBus;
-import org.axonframework.commandhandling.CommandCallback;
 import org.axonframework.commandhandling.GenericCommandMessage;
+import org.axonframework.commandhandling.callbacks.FutureCallback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,15 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import samples.ums.axon.command.CreateUserCommand;
-import samples.ums.axon.command.DeleteUserCommand;
-import samples.ums.axon.command.UpdateUserCommand;
-import samples.ums.axon.domain.UserId;
-import samples.ums.axon.dto.UserListDto;
-import samples.ums.axon.query.RoleEntry;
-import samples.ums.axon.query.UserEntry;
-import samples.ums.axon.service.UserQueryService;
-import samples.ums.axon.utils.UserFactory;
+import ums.axon.command.CreateUserCommand;
+import ums.axon.command.DeleteUserCommand;
+import ums.axon.command.UpdateUserCommand;
+import ums.axon.domain.UserId;
+import ums.axon.dto.UserListDto;
+import ums.axon.query.RoleEntry;
+import ums.axon.query.UserEntry;
+import ums.axon.service.UserQueryService;
 
 @Controller
 @RequestMapping("/users")
@@ -63,9 +62,14 @@ public class UserController {
     Integer role) {
         CreateUserCommand command = new CreateUserCommand(new UserId().toString(), firstName, lastName, userName,
                 password, new RoleEntry(role));
-        UserCreatedCB userCB = new UserCreatedCB();
-        commandBus.dispatch(new GenericCommandMessage<Object>(command), userCB);
-        return userCB.getId();
+        FutureCallback<UserEntry> accountCallback = new FutureCallback<UserEntry>();
+        commandBus.dispatch(new GenericCommandMessage<Object>(command), accountCallback);
+        try {
+            return accountCallback.get().getId();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -94,28 +98,4 @@ public class UserController {
         return true;
     }
 
-    class UserCreatedCB implements CommandCallback<String> {
-
-        private String id;
-
-        @Override
-        public void onSuccess(String userId) {
-            id = userId;
-
-        }
-
-        /**
-         * DOC crazyLau Comment method "getId".
-         * 
-         * @return
-         */
-        public String getId() {
-            return this.id;
-        }
-
-        @Override
-        public void onFailure(Throwable cause) {
-
-        }
-    }
 }

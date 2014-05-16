@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import reactor.core.Environment;
 import reactor.core.Reactor;
+import reactor.core.spec.ReactorSpec;
 import reactor.core.spec.Reactors;
 import reactor.spring.context.config.EnableReactor;
 

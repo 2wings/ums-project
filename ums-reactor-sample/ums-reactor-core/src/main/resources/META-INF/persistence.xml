@@ -5,6 +5,8 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:jboss/datasources/UmsDS</jta-data-source>
 		<non-jta-data-source>java:jboss/datasources/UmsDS</non-jta-data-source>
+		<class>ums.reactor.domain.User</class>
+		<class>ums.reactor.domain.Role</class>
 		<properties>
 			<!-- <property name="hibernate.show_sql" value="true" /> -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />

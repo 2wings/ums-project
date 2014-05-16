@@ -16,7 +16,7 @@ import ums.reactor.event.UserEvent;
 @Component
 public class UserHandler {
 
-    @EJB(mappedName = "java:app/reactor-ums-webui/UserDaoBean")
+    @EJB(mappedName = "java:app/reactor-ums/UserDaoBean")
     private UserDaoBean userDaoBean;
 
     @Autowired
