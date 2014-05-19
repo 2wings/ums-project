@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import reactor.core.Reactor;
 import reactor.event.Event;
+import reactor.function.Consumer;
 import ums.reactor.domain.User;
 
 @Service
@@ -24,5 +25,9 @@ public class UserService {
      */
     public void fireEvent(String topic, User user) {
         reactor.notify(topic, Event.wrap(user));
+    }
+
+    public void fireEvent(String to, String reply, Object data) {
+        reactor.send(to, Event.wrap(data).setReplyTo(reply));
     }
 }
