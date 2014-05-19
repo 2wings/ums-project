@@ -2,6 +2,12 @@ package ums.reactor.controller;
 
 import static reactor.event.selector.Selectors.$;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+
 import javax.ejb.EJB;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +21,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import reactor.core.Reactor;
+import reactor.core.composable.Stream;
+import reactor.core.composable.spec.Streams;
 import reactor.event.Event;
 import reactor.function.Consumer;
+import reactor.function.Function;
+import reactor.tuple.Tuple2;
 import ums.reactor.domain.Role;
 import ums.reactor.domain.User;
-import ums.reactor.dto.UserListDto;
+import ums.reactor.domain.UserListDto;
 import ums.reactor.ejb.UserDaoBean;
 import ums.reactor.event.UserEvent;
 import ums.reactor.service.UserService;
@@ -29,10 +39,11 @@ import ums.reactor.service.UserService;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    @Qualifier("rootReactor")
+    private Reactor reactor;
 
-    @EJB(mappedName = "java:app/reactor-ums/UserDaoBean")
-    private UserDaoBean userDaoBean;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping
     public String getUsersPage() {
@@ -41,24 +52,35 @@ public class UserController {
 
     @RequestMapping(value = "/login")
     public @ResponseBody
-    UserEntry login() {
+    User login(@RequestParam
+    String userName, @RequestParam
+    String password) {
+
         return null;
     }
 
     @RequestMapping(value = "/records")
     public @ResponseBody
     UserListDto getUsers() {
-        UserListDto userListDto = new UserListDto();
-        userListDto.setUsers(userDaoBean.readAll());
+        final CountDownLatch latch = new CountDownLatch(1);
+        final UserListDto userListDto = new UserListDto();
+        reactor.on($(UserEvent.USER_QUERY_REPLY), new Consumer<Event<List<User>>>() {
+
+            @Override
+            public void accept(Event<List<User>> evt) {
+                userListDto.setUsers(evt.getData());
+                latch.countDown();
+            }
+        });
+        userService.fireEvent(UserEvent.USER_GET_ALL, null);
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return userListDto;
     }
 
-    @RequestMapping(value = "/get")
-    public @ResponseBody
-    User get(@RequestBody
-    User user) {
-        return userDaoBean.read(user);
-    }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public @ResponseBody
