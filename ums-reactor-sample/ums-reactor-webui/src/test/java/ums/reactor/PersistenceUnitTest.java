@@ -1,4 +1,4 @@
-package samples.ums.reactor;
+package ums.reactor;
 
 
 import java.sql.Connection;
