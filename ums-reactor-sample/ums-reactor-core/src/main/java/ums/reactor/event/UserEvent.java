@@ -17,13 +17,15 @@ public interface UserEvent {
 
     String USER_COMMAND = "user.command";
 
-    String USER_QUERY_REPLY = "user.query.reply";
-
     String USER_UPDATE = "user.update";
     
     String USER_CREATE = "user.create";
 
     String USER_DELETE = "user.delete";
+
+    String USER_GET_ALL = "user.getall";
+    
+    String USER_QUERY_REPLY = "user.queryall.reply";
     
 
 }
