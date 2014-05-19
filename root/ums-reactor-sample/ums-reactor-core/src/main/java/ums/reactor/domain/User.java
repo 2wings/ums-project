@@ -77,7 +77,7 @@ public class User implements Serializable {
     }
 
     @Id
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
     @Column(name = "USER_ID", nullable = false)
     public String getId() {
         return id;

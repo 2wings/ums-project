@@ -44,7 +44,7 @@ public class Role implements Serializable{
 
     
     @Id
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
     @Column(name = "ROLE_ID", nullable = false)
     public String getId() {
         return id;
