@@ -1,5 +1,7 @@
 package ums.reactor.handler;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +10,11 @@ import org.springframework.stereotype.Component;
 
 import reactor.core.Reactor;
 import reactor.event.Event;
+import reactor.spring.annotation.Consumer;
+import reactor.spring.annotation.ReplyTo;
 import reactor.spring.annotation.Selector;
 import ums.reactor.domain.User;
+import ums.reactor.domain.UserListDto;
 import ums.reactor.ejb.UserDaoBean;
 import ums.reactor.event.UserEvent;
 
@@ -37,4 +42,11 @@ public class UserHandler {
     public void handleUserDelete(Event<User> evt) throws Exception {
         userDaoBean.delete(evt.getData());
     }
+
+    @Selector(value = UserEvent.USER_GET_ALL, reactor = "@rootReactor")
+    @ReplyTo(UserEvent.USER_QUERY_REPLY)
+    public List<User> handleQueryAll(Event evt) {
+        return userDaoBean.readAll();
+    }
+    
 }
