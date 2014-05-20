@@ -32,8 +32,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import static javax.persistence.FetchType.LAZY;
-
 @Entity
 @Table(name = "users1")
 public class User implements Serializable {
@@ -65,6 +63,7 @@ public class User implements Serializable {
     public User(String firstName, String lastName, String userName, String password, Integer role) {
         this.id = UUID.randomUUID().toString();
         this.userName = userName;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = new Role(role);
