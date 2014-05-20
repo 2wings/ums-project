@@ -4,8 +4,10 @@ import static reactor.event.selector.Selectors.$;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.ejb.EJB;
@@ -50,14 +52,7 @@ public class UserController {
         return "users";
     }
 
-    @RequestMapping(value = "/login")
-    public @ResponseBody
-    User login(@RequestParam
-    String userName, @RequestParam
-    String password) {
-
-        return null;
-    }
+   
 
     @RequestMapping(value = "/records")
     public @ResponseBody
@@ -80,7 +75,6 @@ public class UserController {
         }
         return userListDto;
     }
-
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public @ResponseBody
