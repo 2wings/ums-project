@@ -1,22 +1,39 @@
 package ums.reactor.ejb;
 
+import java.util.List;
+
 import javax.ejb.Stateful;
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
+
+import org.jboss.annotation.ejb.cache.simple.CacheConfig;
 
 import ums.reactor.domain.User;
 
-import java.util.List;
-
 @Stateful
+@CacheConfig (maxSize=100000, idleTimeoutSeconds=300, removalTimeoutSeconds=0)
 public class UserDaoBean {
 
     @PersistenceContext(unitName = "user-persistence")
     private EntityManager entityManager;
+
+    public User find(String userName) {
+        try {
+            Query query = entityManager.createQuery("select u from User u where u.userName = :userName");
+            query.setParameter("userName", userName);
+            List<User> users = query.getResultList();
+            if (users.size() > 0) {
+                return users.get(0);
+            }else{
+                return null;
+            }
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 
     public User find(int id) {
         try {
