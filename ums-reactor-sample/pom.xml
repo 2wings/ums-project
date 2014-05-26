@@ -9,8 +9,9 @@
 	<artifactId>ums-reactor-sample</artifactId>
 	<packaging>pom</packaging>
 	<modules>
-		<module>ums-reactor-webui</module>
+		
 		<module>ums-reactor-core</module>
+		<module>ums-reactor-webui</module>
 	</modules>
 
 	<dependencies>
