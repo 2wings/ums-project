@@ -1,0 +1,8 @@
+######################
+# Eclipse
+######################
+target/
+.settings/
+.project
+.classpath
+.externalToolBuilders/
