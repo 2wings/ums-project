@@ -6,6 +6,7 @@ import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.GenericCommandMessage;
 import org.axonframework.commandhandling.callbacks.FutureCallback;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ import ums.axon.query.UserEntry;
 import ums.axon.service.UserQueryService;
 
 @Controller
+@Scope("request")
 @RequestMapping("/users")
 public class UserController {
 
