@@ -47,12 +47,6 @@ public class UserController {
         return userListDto;
     }
 
-    @RequestMapping(value = "/get")
-    public @ResponseBody
-    UserEntry get(@RequestBody
-    UserEntry user) {
-        return service.read(user);
-    }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public @ResponseBody
