@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:axon="http://www.axonframework.org/schema/core"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+       http://www.axonframework.org/schema/core http://www.axonframework.org/schema/axon-core.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.2.xsd">
+
+	<axon:annotation-config/>
+
+	<mongo:repositories base-package="ums.axon.query.repository"
+		mongo-template-ref="mongoSpringTemplate" />
+
+	<!-- persistence including repository and mongodb -->
+	<bean id="eventStore" class="org.axonframework.eventstore.mongo.MongoEventStore">
+		<constructor-arg ref="mongoTemplate" />
+	</bean>
+
+	<bean id="mongoTemplate" class="ums.axon.infra.DefaultMongoTemplate">
+		<constructor-arg ref="mongoDbFactory" />
+	</bean>
+
+	<bean id="mongoSagaTemplate" class="ums.axon.infra.DefaultSagaMongoTemplate">
+		<constructor-arg ref="mongoDbFactory" />
+	</bean>
+
+	<bean id="mongoSpringTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="mongoDbFactory" />
+	</bean>
+
+	<bean id="ehcache" factory-bean="cacheManager" factory-method="getCache">
+		<constructor-arg value="testCache" />
+	</bean>
+
+	<bean id="cacheManager"
+		class="org.springframework.cache.jcache.JCacheManagerFactoryBean"   />
+</beans>
