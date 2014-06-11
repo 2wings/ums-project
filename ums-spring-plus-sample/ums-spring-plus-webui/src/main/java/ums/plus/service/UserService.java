@@ -4,16 +4,19 @@
 //
 // ============================================================================
 
-package ums.plus.service.impl;
+package ums.plus.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ums.plus.domain.User;
+import ums.plus.dto.UserDTO;
+import ums.plus.repository.PaginatingUserRepositoryImpl;
 import ums.plus.repository.UserRepository;
-import ums.plus.service.IUserService;
 
 /**
  * DOC crazyLau class global comment. Detailled comment
@@ -23,8 +26,14 @@ import ums.plus.service.IUserService;
 @Service
 public class UserService implements IUserService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+
     @Autowired
     UserRepository userRepository;
+
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /*
      * (non-Javadoc)
@@ -43,28 +52,52 @@ public class UserService implements IUserService {
      * @see ums.plus.service.IUserService#createUser(ums.plus.domain.User)
      */
     @Override
-    public User createUser(User user) {
-        userRepository.createUser(user);
+    public User createUser(UserDTO userDto) {
+        LOGGER.debug("creating a new user " + userDto);
+        User user = User.getBuilder(userDto.getFirstName(), userDto.getLastName()).build();
+        userRepository.save(user);
         return user;
     }
 
     /**
      * DOC crazyLau Comment method "count".
+     * 
      * @param searchTerm
      * @return
      */
     public long count(String searchTerm) {
-       return userRepository.findUserCount(searchTerm);
+        return userRepository.findUserCount(searchTerm);
     }
 
     /**
      * DOC crazyLau Comment method "delete".
+     * 
      * @param personId
      * @return
      */
     public User delete(Long personId) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see ums.plus.service.IUserService#findUserByUsername(java.lang.String)
+     */
+    @Override
+    public User findUserByUsername(String username) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * DOC crazyLau Comment method "findAll".
+     * 
+     * @return
+     */
+    public List<User> findAll() {
+        return userRepository.findAllUsers();
     }
 
 }

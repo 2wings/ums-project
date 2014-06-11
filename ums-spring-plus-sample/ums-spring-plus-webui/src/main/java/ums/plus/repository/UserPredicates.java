@@ -6,17 +6,19 @@
 
 package ums.plus.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+import ums.plus.domain.QUser;
 
-import ums.plus.domain.User;
+import com.mysema.query.types.Predicate;
 
 /**
  * DOC crazyLau class global comment. Detailled comment
  * 
  * @author liushuangyi@126.com
  */
-public interface UserRepository extends PaginatingUserRepository, JpaRepository<User, Long>,
-        QueryDslPredicateExecutor<User> {
+public class UserPredicates {
 
+    public static Predicate usernameIs(final String searchTerm) {
+        QUser user = QUser.user;
+        return user.username.equalsIgnoreCase(searchTerm);
+    }
 }

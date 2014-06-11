@@ -9,6 +9,8 @@ package ums.plus.context;
 import java.util.Properties;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.hibernate.ejb.HibernatePersistence;
@@ -16,6 +18,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -35,16 +38,18 @@ import org.springframework.web.servlet.view.JstlView;
  * @author liushuangyi@126.com
  */
 @Configuration
-@ComponentScan(basePackages = { "ums.plus.controller", "ums.plus.service", "ums.plus.repository" })
 @EnableTransactionManagement
-@EnableWebMvc
-@ImportResource("classpath:applicationContext.xml")
+@ComponentScan(basePackages = { "ums.plus.controller", "ums.plus.service", "ums.plus.repository" })
+@Import({ SecurityConfig.class })
+//@ImportResource("classpath:applicationContext.xml")
 @PropertySource("classpath:application.properties")
 public class ApplicationContext {
 
-    private static final String VIEW_RESOLVER_PREFIX = "/WEB-INF/jsp/";
-    private static final String VIEW_RESOLVER_SUFFIX = ".jsp";
+    public static final String USER_PERSISTENCE = "user-persistence";
 
+    private static final String VIEW_RESOLVER_PREFIX = "/WEB-INF/views/";
+    private static final String VIEW_RESOLVER_SUFFIX = ".jsp";
+    
     private static final String PROPERTY_NAME_DATABASE_DRIVER = "db.driver";
     private static final String PROPERTY_NAME_DATABASE_PASSWORD = "db.password";
     private static final String PROPERTY_NAME_DATABASE_URL = "db.url";
@@ -56,9 +61,6 @@ public class ApplicationContext {
     private static final String PROPERTY_NAME_HIBERNATE_NAMING_STRATEGY = "hibernate.ejb.naming_strategy";
     private static final String PROPERTY_NAME_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
     private static final String PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN = "entitymanager.packages.to.scan";
-
-    private static final String PROPERTY_NAME_MESSAGESOURCE_BASENAME = "message.source.basename";
-    private static final String PROPERTY_NAME_MESSAGESOURCE_USE_CODE_AS_DEFAULT_MESSAGE = "message.source.use.code.as.default.message";
 
     @Resource
     private Environment environment;
@@ -78,15 +80,30 @@ public class ApplicationContext {
     @Bean
     public JpaTransactionManager transactionManager() throws ClassNotFoundException {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-
         transactionManager.setEntityManagerFactory(entityManagerFactoryBean().getObject());
         return transactionManager;
     }
 
     @Bean
+    public EntityManager entityManager() throws ClassNotFoundException {
+        return entityManagerFactory().createEntityManager();
+    }
+
+    @Bean 
+    public EntityManagerFactory entityManagerFactory() throws ClassNotFoundException {
+        return entityManagerFactoryBean().getObject();
+    }
+    
+    /**
+     * replace persistence.xml DOC crazyLau Comment method "entityManagerFactoryBean".
+     * 
+     * @return
+     * @throws ClassNotFoundException
+     */
+//    @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() throws ClassNotFoundException {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-
+        entityManagerFactoryBean.setPersistenceUnitName(USER_PERSISTENCE);
         entityManagerFactoryBean.setDataSource(dataSource());
         entityManagerFactoryBean.setPackagesToScan(environment
                 .getRequiredProperty(PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN));
@@ -106,28 +123,17 @@ public class ApplicationContext {
 
         entityManagerFactoryBean.setJpaProperties(jpaProterties);
 
+        entityManagerFactoryBean.afterPropertiesSet();
         return entityManagerFactoryBean;
     }
-
-    @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-
-        messageSource.setBasename(environment.getRequiredProperty(PROPERTY_NAME_MESSAGESOURCE_BASENAME));
-        messageSource.setUseCodeAsDefaultMessage(Boolean.parseBoolean(environment
-                .getRequiredProperty(PROPERTY_NAME_MESSAGESOURCE_USE_CODE_AS_DEFAULT_MESSAGE)));
-
-        return messageSource;
-    }
-
+    
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-
         viewResolver.setViewClass(JstlView.class);
         viewResolver.setPrefix(VIEW_RESOLVER_PREFIX);
         viewResolver.setSuffix(VIEW_RESOLVER_SUFFIX);
-
         return viewResolver;
     }
+    
 }

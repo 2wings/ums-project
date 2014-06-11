@@ -8,6 +8,7 @@ import reactor.core.Reactor;
 import reactor.event.Event;
 import reactor.function.Consumer;
 import ums.reactor.domain.User;
+import ums.reactor.dto.UserDTO;
 
 @Service
 public class UserService {
@@ -23,7 +24,9 @@ public class UserService {
      * @param topic
      * @param user
      */
-    public void fireEvent(String topic, User user) {
+    public void fireEvent(String topic, UserDTO user) {
+        
+        
         reactor.notify(topic, Event.wrap(user));
     }
 

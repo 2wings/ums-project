@@ -14,10 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "role1" )
 public class Role implements Serializable{
-
-    /**
-     * 
-     */
+ 
     private static final long serialVersionUID = 7379605425278283239L;
 
     private String id;

@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import reactor.core.Environment;
 import reactor.core.Reactor;
+import reactor.core.action.CallbackAction;
 import reactor.core.spec.Reactors;
 import reactor.event.Event;
 import reactor.function.Consumer;
@@ -165,5 +166,11 @@ public class ReactorBasicTest {
         r.send("test2", Event.wrap("test2").setReplyTo("test"));
 
         env.shutdown();
+    }
+    
+    @Test
+    public void callbackActionTest(){
+        Environment env = new Environment();
+        final Reactor r = Reactors.reactor().env(env).dispatcher("ringBuffer").get();
     }
 }

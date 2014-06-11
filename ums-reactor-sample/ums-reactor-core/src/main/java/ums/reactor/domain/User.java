@@ -15,7 +15,7 @@
 package ums.reactor.domain;
 
 /**
- *
+ * 
  * @author liushuangyi@126.com
  */
 import java.io.Serializable;
@@ -36,9 +36,6 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "users1")
 public class User implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7321118073774237777L;
 
     private String id;
@@ -60,7 +57,7 @@ public class User implements Serializable {
      * @param password
      * @param role
      */
-    public User(String firstName, String lastName, String userName, String password, Integer role) {
+    public User(String userName, String password, String firstName, String lastName, Integer role) {
         this.id = UUID.randomUUID().toString();
         this.userName = userName;
         this.password = password;
@@ -118,8 +115,8 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @JoinColumn(name = "ROLE_ID",nullable=false)
-    @ManyToOne(optional=false,fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @JoinColumn(name = "ROLE_ID", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public Role getRole() {
         return this.role;
     }
@@ -130,8 +127,50 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-
         return "id:" + this.id + " ,firstName: " + this.firstName + ", lastName: " + this.lastName + ", userName:"
                 + this.userName + ", role:" + role.toString();
     }
+
+    public static class Builder {
+
+        private User built;
+
+        /**
+         * DOC crazyLau Builder constructor comment.
+         * 
+         * @param username
+         * @param password
+         * @param firstName
+         * @param lastName
+         * @param role
+         */
+        public Builder(String username, String password, String firstName, String lastName, int role) {
+            built = new User(username, password, firstName, lastName, role);
+        }
+
+        /**
+         * DOC crazyLau Comment method "build".
+         * 
+         * @return
+         */
+        public User build() {
+            return built;
+        }
+
+    }
+
+    /**
+     * DOC crazyLau Comment method "getBuilder".
+     * 
+     * @param username2
+     * @param password2
+     * @param firstName2
+     * @param lastName2
+     * @param role2
+     * @return
+     */
+    public static Builder getBuilder(String username, String password, String firstName, String lastName, int role) {
+        return new Builder(username, password, firstName, lastName, role);
+    }
+
 }

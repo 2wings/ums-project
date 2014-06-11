@@ -1,9 +1,6 @@
 package ums.reactor.handler;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.ejb.EJB;
 
@@ -12,15 +9,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import reactor.core.Reactor;
-import reactor.core.composable.Stream;
-import reactor.core.composable.spec.Streams;
 import reactor.event.Event;
-import reactor.function.Function;
-import reactor.spring.annotation.Consumer;
 import reactor.spring.annotation.ReplyTo;
 import reactor.spring.annotation.Selector;
 import ums.reactor.domain.User;
-import ums.reactor.domain.UserListDto;
 import ums.reactor.ejb.UserDaoBean;
 import ums.reactor.event.UserEvent;
 

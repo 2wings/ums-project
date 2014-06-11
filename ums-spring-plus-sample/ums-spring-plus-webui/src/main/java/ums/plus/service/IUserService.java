@@ -9,6 +9,7 @@ package ums.plus.service;
 import java.util.List;
 
 import ums.plus.domain.User;
+import ums.plus.dto.UserDTO;
 
 
 /**
@@ -26,6 +27,26 @@ public interface IUserService {
      */
     List<User> getPageList(int page, int rows);
     
-    User createUser(User user);
+
+    /**
+     * DOC crazyLau Comment method "findUserByUsername".
+     * @param username
+     * @return
+     */
+    User findUserByUsername(String username);
+
+    /**
+     * DOC crazyLau Comment method "createUser".
+     * @param userDto
+     * @return
+     */
+    User createUser(UserDTO userDto);
+
+
+    /**
+     * DOC crazyLau Comment method "findAll".
+     * @return
+     */
+    List<User> findAll();
 
 }

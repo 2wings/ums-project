@@ -10,8 +10,6 @@ import java.util.Locale;
 
 import javax.annotation.Resource;
 
-import org.junit.Before;
-import org.mockito.Mock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;

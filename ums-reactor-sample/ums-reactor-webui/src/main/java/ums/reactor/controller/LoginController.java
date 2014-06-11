@@ -71,7 +71,7 @@ public class LoginController {
         User newUser = new User();
         newUser.setUserName(userName);
         newUser.setPassword(password);
-        userService.fireEvent(UserEvent.USER_LOGIN, newUser);
+//        userService.fireEvent(UserEvent.USER_LOGIN, newUser);
 
         try {
             latch.await();

@@ -13,6 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
+
+import ums.plus.domain.User.Builder;
+
 /**
  * DOC crazyLau class global comment. Detailled comment
  * 
@@ -22,9 +26,6 @@ import javax.persistence.Table;
 @Table(name = "user")
 public class User {
 
-    /**
-     * 
-     */
     private static final String BLANK = " ";
 
     @Id
@@ -191,6 +192,10 @@ public class User {
     // ///////////////////////////// Builder Pattern ///////////////////////////////////////////////
     // ///////////////////////////// /////////////////////////////// ///////////////////////////////
 
+    public static Builder getBuilder() {
+        return new Builder();
+    }
+
     public static Builder getBuilder(String firstName, String lastName) {
         return new Builder(firstName, lastName);
     }
@@ -205,10 +210,49 @@ public class User {
             built.lastName = lastName;
         }
 
+        /**
+         * DOC crazyLau Builder constructor comment.
+         */
+        public Builder() {
+            built = new User();
+        }
+
         public User build() {
             return this.built;
         }
 
+        /**
+         * DOC crazyLau Comment method "firstName".
+         * 
+         * @param string
+         * @return
+         */
+        public Builder firstName(String firstName) {
+            this.built.firstName = firstName;
+            return this;
+        }
+
+        /**
+         * DOC crazyLau Comment method "lastName".
+         * 
+         * @param string
+         * @return
+         */
+        public Builder lastName(String lastName) {
+            this.built.lastName = lastName;
+            return this;
+        }
+
+        /**
+         * DOC crazyLau Comment method "id".
+         * 
+         * @param userId
+         * @return
+         */
+        public Builder id(Long userId) {
+            this.built.id = userId;
+            return this;
+        }
     }
 
 }
